@@ -1,14 +1,20 @@
-const express = require('express')
-const connectMongo = require('./db.js')
-const app = express()
-connectMongo();
+const express = require('express');
+var bodyParser = require('body-parser');
+const routes = require('./routes/routes.js');
 
-app.use(express.json())
+const app = express();
 
-//Routes
-app.use('/api/auth/register', require('./routes/auth.js'))
-app.use('/api/notes', require('./routes/notes.js'))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(3000, () => {
-  console.log(`Express is running on port 3000`)
-})
+const mongoose = require('mongoose')
+
+mongoose.connect("mongodb+srv://users-open-to-all:hiPassword123@cluster0.uh35t.mongodb.net/SM_Sameer?retryWrites=true&w=majority", { useNewUrlParser: true })
+    .then(() => console.log('mongodb ready to roll'))
+    .catch(err => console.log(err))
+
+app.use('/', routes);
+
+app.listen(process.env.PORT || 3000, function() {
+    console.log('Express app running on port ' + (process.env.PORT || 3000))
+});
