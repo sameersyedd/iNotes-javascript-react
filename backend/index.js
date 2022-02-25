@@ -6,7 +6,7 @@ connectMongo();
 app.use(express.json())
 
 //Routes
-app.use('/api/auth', require('./routes/auth.js'))
+app.use('/api/auth/register', require('./routes/auth.js'))
 app.use('/api/notes', require('./routes/notes.js'))
 
 app.listen(3000, () => {
